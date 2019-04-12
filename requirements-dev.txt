@@ -1,6 +1,7 @@
 pallets-sphinx-themes
 Sphinx
 sphinx-issues
+babel==2.6.0
 mock==2.0.0
 nose2[coverage_plugin]
 cov-core==1.15.0
