@@ -79,7 +79,7 @@ class ViewsTestCase(SearxTestCase):
         self.assertEqual(result.status_code, 308)
 
     def test_search_html(self):
-        result = self.app.post('/search', data={'q': 'test'})
+        result = self.app.post(webapp.search_path, data={'q': 'test'})
 
         self.assertIn(
             b'<h3 class="result_title"><img width="14" height="14" class="favicon" src="/static/themes/legacy/img/icons/icon_youtube.ico" alt="youtube" /><a href="http://second.test.xyz" rel="noreferrer">Second <span class="highlight">Test</span></a></h3>',  # noqa
@@ -95,7 +95,7 @@ class ViewsTestCase(SearxTestCase):
         self.assertEqual(result.status_code, 308)
 
     def test_search_json(self):
-        result = self.app.post('/search', data={'q': 'test', 'format': 'json'})
+        result = self.app.post(webapp.search_path, data={'q': 'test', 'format': 'json'})
         result_dict = json.loads(result.data.decode('utf-8'))
 
         self.assertEqual('test', result_dict['query'])
@@ -108,7 +108,7 @@ class ViewsTestCase(SearxTestCase):
         self.assertEqual(result.status_code, 308)
 
     def test_search_csv(self):
-        result = self.app.post('/search', data={'q': 'test', 'format': 'csv'})
+        result = self.app.post(webapp.search_path, data={'q': 'test', 'format': 'csv'})
 
         self.assertEqual(
             b'title,url,content,host,engine,score,type\r\n'
@@ -121,8 +121,8 @@ class ViewsTestCase(SearxTestCase):
         result = self.app.post('/', data={'q': 'test', 'format': 'rss'})
         self.assertEqual(result.status_code, 308)
 
-    def test_index_rss(self):
-        result = self.app.post('/search', data={'q': 'test', 'format': 'rss'})
+    def test_search_rss(self):
+        result = self.app.post(webapp.search_path, data={'q': 'test', 'format': 'rss'})
 
         self.assertIn(
             b'<description>Search results for "test" - searx</description>',

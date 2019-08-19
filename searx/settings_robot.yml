@@ -3,6 +3,7 @@ general:
     instance_name : "searx_test"
 
 search:
+    search_path : "search"
     language: "all"
 
 server:

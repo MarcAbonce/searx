@@ -106,6 +106,8 @@ else:
 from werkzeug.serving import WSGIRequestHandler
 WSGIRequestHandler.protocol_version = "HTTP/{}".format(settings['server'].get('http_protocol_version', '1.0'))
 
+search_path = '/' + settings['search']['search_path']
+
 # about static
 static_path = get_resources_directory(searx_dir, 'static', settings['ui']['static_path'])
 logger.debug('static directory is %s', static_path)
@@ -536,16 +538,22 @@ def index_error(output_format, error_message):
 def index():
     """Render index page."""
 
-    # redirect to search if there's a query in the request
+    # check if there is query
     if request.form.get('q'):
-        return redirect(url_for('search'), 308)
+        if search_path == '/':
+            # call search right away only if search path is same as index
+            return search()
+        else:
+            # otherwise send an http redirect
+            redirect_url = url_for('search') + '?' + request.query_string.decode('utf-8')
+            return redirect(redirect_url, 308)
 
     return render(
         'index.html',
     )
 
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route(search_path, methods=['GET', 'POST'])
 def search():
     """Search query in q and return results.
 
