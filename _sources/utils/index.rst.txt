@@ -41,14 +41,14 @@ Scripts to maintain services often dispose of common commands and environments.
   <lxc-searx.env>` use ::
 
     sudo -H ./utils/lxc.sh cmd -- FORCE_TIMEOUT=0 ./utils/filtron.sh apache install
- 
+
 .. _toolboxing setup:
 
 Tooling box setup
 =================
 
-The main setup is done in the :origin:`.config.sh` (read also :ref:`makefile
-setup`).
+The main setup is done in the :origin:`.config.sh` (read also :ref:`settings
+global`).
 
 .. literalinclude:: ../../.config.sh
    :language: bash
